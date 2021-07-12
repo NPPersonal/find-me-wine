@@ -1,0 +1,44 @@
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1.27.0
+workflows:
+  build:
+    jobs:
+      - cypress/run:
+          name: Install Dependencies
+          command: npm install
+
+      - cypress/run:
+          name: Testing Project
+          requires:
+            - Install Dependencies
+          debug: 'cypress:cli'
+          attach-workspace: true
+          command: npm run ci-test
+
+      - cypress/run:
+          name: Building Project
+          requires:
+            - Testing Project
+          attach-workspace: true
+          command: npm run build
+          post-steps:
+            - persist_to_workspace:
+                root: ~/
+                paths: 
+                  - project
+
+      - cypress/run:
+          name: Alpha Netlify Release
+          requires:
+            - Building Project
+          attach-workspace: true
+          start: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          command: npx semantic-release
+          post-steps:
+            - run: npm install -g netlify-cli
+            - run: netlify build
+            - run: netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+          filters:
+              branches:
+                  only: alpha
