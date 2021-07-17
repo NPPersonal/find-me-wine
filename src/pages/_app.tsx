@@ -1,4 +1,5 @@
 import React from "react";
+import wrapper from '../redux/store';
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
@@ -9,7 +10,7 @@ import Box from "@material-ui/core/Box/Box";
 import Typography from "@material-ui/core/Typography/Typography";
 import LinkTo from "../components/units/LinkTo/LinkTo";
 
-export default function MovieReviewApp(props: AppProps) {
+const App = (props: AppProps) => {
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
@@ -57,3 +58,5 @@ export default function MovieReviewApp(props: AppProps) {
     </React.Fragment>
   );
 }
+
+export default wrapper.withRedux(App)

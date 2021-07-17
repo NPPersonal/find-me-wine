@@ -1,3 +1,4 @@
 export type HomeProps = {
-    header: string
+    header: string,
+    example_desc: string,
 }
