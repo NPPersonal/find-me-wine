@@ -13,6 +13,10 @@ const ML_API = process.env.NEXT_PUBLIC_ML_API;
 export const fetchNumUniqueWine = () => async (
     dispatch:ThunkDispatch<WineState, void, AnyAction>
     )=>{
+        dispatch({
+            type: WineActionType.FETCH_NUM_UNIQUE_WINE,
+        })
+
         const res = await axios.get(`${ML_API}/list-of/title`);
         const wineQuantity = res.data.total_results;
 
@@ -28,6 +32,10 @@ export const fetchNumUniqueWine = () => async (
 export const fetchNumUniqueCountry = () => async (
     dispatch:ThunkDispatch<WineState, void, AnyAction>
     )=>{
+        dispatch({
+            type: WineActionType.FETCH_NUM_UNIQUE_COUNTRY
+        })
+        
         const res = await axios.get(`${ML_API}/list-of/country`);
         const countryQuantity = res.data.total_results;
 

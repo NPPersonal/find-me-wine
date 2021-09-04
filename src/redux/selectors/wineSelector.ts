@@ -21,9 +21,19 @@ export const selectTransformWineList = createSelector(
     transformWineList,
 );
 
+export const selectFetchingNumUniqueWine = createSelector(
+    selectWine,
+    (wine:WineState)=>wine.fetchingNumUniqueWine
+)
+
 export const selectNumUniqueWine = createSelector(
     selectWine,
     (wine:WineState)=>wine.numUniqueWine
+)
+
+export const selectFetchingNumUniqueCountry = createSelector(
+    selectWine,
+    (wine:WineState)=>wine.fetchingNumUniqueCountry
 )
 
 export const selectNumUniqueCountry = createSelector(

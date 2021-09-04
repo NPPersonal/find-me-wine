@@ -10,7 +10,7 @@ import { WineState } from '../redux/reducers/wineReducer';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize/TextareaAutosize';
 import Button from '@material-ui/core/Button/Button';
 import Box from '@material-ui/core/Box/Box';
-import { selectNumUniqueCountry, selectNumUniqueWine, selectTransformWineList } from '../redux/selectors/wineSelector';
+import { selectNumUniqueCountry, selectNumUniqueWine, selectTransformWineList, selectFetchingNumUniqueWine, selectFetchingNumUniqueCountry } from '../redux/selectors/wineSelector';
 import WineCollection from '../components/concrete/WineCollection/WineCollection';
 
 // export const getStaticProps: GetStaticProps<HomeProps> = async () =>{
@@ -34,7 +34,9 @@ export const getStaticProps = wrapper.getStaticProps<HomeProps>(()=>()=>{
 const Home:React.FC<HomeProps> = (props:HomeProps) => {
   const dispatch = useDispatch();
   const numUniqueWine = useSelector(selectNumUniqueWine);
+  const fetchingUniqueWine = useSelector(selectFetchingNumUniqueWine);
   const numUniqueCountry = useSelector(selectNumUniqueCountry);
+  const fetchingUniqueCountry = useSelector(selectFetchingNumUniqueCountry);
   const {findingWine} = useSelector((state:RootState)=>state.wine);
   const wineList = useSelector(selectTransformWineList);
   const [desc, setDesc] = useState<string>('');
@@ -55,8 +57,16 @@ const Home:React.FC<HomeProps> = (props:HomeProps) => {
   return (
     <Container>
       <Typography variant='h1'>{props.header}</Typography>
-      <Typography variant='h5'>{`Number of unique wine: ${numUniqueWine}`}</Typography>
-      <Typography variant='h5'>{`Number of unique country: ${numUniqueCountry}`}</Typography>
+      {!fetchingUniqueWine?
+        <Typography variant='h5'>{`Number of unique wine: ${numUniqueWine}`}</Typography>
+        :
+        null
+      }
+      {!fetchingUniqueCountry?
+        <Typography variant='h5'>{`Number of unique country: ${numUniqueCountry}`}</Typography>
+        :
+        null
+      }
       <Box>
         <TextareaAutosize 
         aria-label="empty textarea" 
