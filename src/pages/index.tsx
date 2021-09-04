@@ -8,10 +8,12 @@ import wrapper, { RootState } from '../redux/store';
 import { fetchNumUniqueWine, fetchNumUniqueCountry, findWineWith } from '../redux/actions/wineActions';
 import { WineState } from '../redux/reducers/wineReducer';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize/TextareaAutosize';
+import TextField from '@material-ui/core/TextField/TextField';
 import Button from '@material-ui/core/Button/Button';
 import Box from '@material-ui/core/Box/Box';
 import { selectNumUniqueCountry, selectNumUniqueWine, selectTransformWineList, selectFetchingNumUniqueWine, selectFetchingNumUniqueCountry } from '../redux/selectors/wineSelector';
 import WineCollection from '../components/concrete/WineCollection/WineCollection';
+import Counter from '../components/concrete/Counter/Counter';
 
 // export const getStaticProps: GetStaticProps<HomeProps> = async () =>{
 //   return {
@@ -24,7 +26,7 @@ import WineCollection from '../components/concrete/WineCollection/WineCollection
 export const getStaticProps = wrapper.getStaticProps<HomeProps>(()=>()=>{
   return {
     props:{
-      header:'Work In Progress',
+      header:'Wine Discovery',
       example_desc: `Example:\n\nSharp, simple and candied, with blackberry jam and cola flavors. The tannins are rugged, and the wine finishes with a scour of acidity. Seems at its best now.`,
   
     }
@@ -56,34 +58,59 @@ const Home:React.FC<HomeProps> = (props:HomeProps) => {
 
   return (
     <Container>
-      <Typography variant='h1'>{props.header}</Typography>
-      {!fetchingUniqueWine?
-        <Typography variant='h5'>{`Number of unique wine: ${numUniqueWine}`}</Typography>
-        :
-        null
-      }
-      {!fetchingUniqueCountry?
-        <Typography variant='h5'>{`Number of unique country: ${numUniqueCountry}`}</Typography>
-        :
-        null
-      }
-      <Box>
-        <TextareaAutosize 
-        aria-label="empty textarea" 
-        placeholder={props.example_desc} 
+      <Typography variant='h1'>
+        <Box display='flex' paddingBottom={8} justifyContent='center'>{props.header}</Box>
+      </Typography>
+      <Typography variant='h2'>
+        <Box display='flex' justifyContent='center'>
+          <Typography variant='inherit'>{`There are total`}</Typography>
+          <Box fontWeight={800}>
+            <Counter 
+            end={!fetchingUniqueWine?numUniqueWine:0} 
+            duration={4} 
+            />
+          </Box>
+          <Typography variant='inherit'>{`of wines`}</Typography>
+        </Box>
+      </Typography>
+      <Typography variant='h2'>
+        <Box display='flex' justifyContent='center'>
+          <Typography variant='inherit'>{`From `}</Typography>
+          <Box fontWeight={800}>
+            <Counter 
+            end={!fetchingUniqueCountry?numUniqueCountry:0} 
+            duration={4} 
+            />
+          </Box>
+          <Typography variant='inherit'>{`different countries`}</Typography>
+        </Box>
+      </Typography>
+      <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' paddingTop={8} paddingX={12}>
+        <Box width='100%'>
+        <TextField
+        fullWidth={true}
+        variant='outlined'
+        label='Wine Description'
+        multiline
+        placeholder={props.example_desc}
         defaultValue={desc}
         onChange={handleDescChange}
         />
+        </Box>
+        <Box paddingTop={2}>
+          <Button
+          variant="contained" 
+          color="primary"
+          onClick={handleSearch}
+          disabled={findingWine}
+          >
+            Search
+          </Button>
+        </Box>
       </Box>
-      <Button 
-      variant="contained" 
-      color="primary"
-      onClick={handleSearch}
-      disabled={findingWine}
-      >
-        Search
-      </Button>
-      <WineCollection data={wineList} />
+      <Box width='inherit' paddingY={8} paddingX={12}>
+        <WineCollection data={wineList} />
+      </Box>
     </Container>
   );
 };
