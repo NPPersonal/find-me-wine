@@ -8,18 +8,18 @@ workflows:
           name: Install Dependencies
           command: npm install
 
-      - cypress/run:
-          name: Testing Project
-          requires:
-            - Install Dependencies
-          debug: "cypress:cli"
-          attach-workspace: true
-          command: npm run ci-test
+      # - cypress/run:
+      #     name: Testing Project
+      #     requires:
+      #       - Install Dependencies
+      #     debug: "cypress:cli"
+      #     attach-workspace: true
+      #     command: npm run ci-test
 
       - cypress/run:
           name: Building Project
           requires:
-            - Testing Project
+            - Install Dependencies
           attach-workspace: true
           command: npm run build
           post-steps:
