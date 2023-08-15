@@ -27,18 +27,3 @@ workflows:
                 root: ~/
                 paths: 
                   - project
-
-      - cypress/run:
-          name: Alpha Netlify Release
-          requires:
-            - Building Project
-          attach-workspace: true
-          start: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-          command: npx semantic-release
-          post-steps:
-            - run: npm install --save-dev netlify-cli
-            - run: netlify build
-            - run: netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
-          filters:
-              branches:
-                  only: alpha
