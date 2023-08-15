@@ -15,9 +15,9 @@
     ]
   },
   "scripts": {
-    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
+    "dev": "next dev",
     "build": "next build",
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && next start",
+    "start": "next start",
     "cy-open": "cypress open",
     "cy-run": "cypress run",
     "e2e-test": "server-test dev :3000 cy-open",
@@ -29,7 +29,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.21.1",
-    "next": "11.0.1",
+    "next": "^12.3.4",
     "next-redux-wrapper": "^7.0.2",
     "react": "17.0.2",
     "react-countup": "^5.2.0",
