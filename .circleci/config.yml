@@ -12,7 +12,7 @@ workflows:
           name: Testing Project
           requires:
             - Install Dependencies
-          debug: 'cypress:cli'
+          debug: "cypress:cli"
           attach-workspace: true
           command: npm run ci-test
 
@@ -25,7 +25,7 @@ workflows:
           post-steps:
             - persist_to_workspace:
                 root: ~/
-                paths: 
+                paths:
                   - project
 
       - cypress/run:
@@ -41,5 +41,5 @@ workflows:
             # - run: netlify build
             # - run: netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
           filters:
-              branches:
-                  only: alpha
+            branches:
+              only: alpha
