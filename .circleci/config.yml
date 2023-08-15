@@ -36,9 +36,10 @@ workflows:
           start: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
           command: npx semantic-release
           post-steps:
-            - run: npm install --unsafe-perm=true netlify-cli -g
-            - run: netlify build
-            - run: netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+            - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/64db48100f6d0b4471e4eba4
+            # - run: npm install --unsafe-perm=true netlify-cli -g
+            # - run: netlify build
+            # - run: netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
           filters:
               branches:
                   only: alpha
