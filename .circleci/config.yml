@@ -5,60 +5,30 @@ orbs:
 
 # define jobs
 jobs:
-  install-dependencies:
+  run-test:
+    executor: cypress/default
+    steps:
+      - cypress/install
+      - cypress/run-tests
+  build-project:
     executor: node/default
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: npm
+      - run:
+          command: npm run build
+          name: build project
       - persist_to_workspace:
           root: ~/project
           paths:
             - .
-  run-test:
-    executor: cypress/default
-    steps:
-      - run: npm run ci-test
-  build-project:
-    executor: node/default
-    steps:
-      - run: npm run build 
 
 # define workflows
 workflows:
-  install-test-build:
+  test-build:
     jobs:
-      - install-dependencies
-      # - run-test:
-      #     requires:
-      #       - install-dependencies
-      # - build-project:
-      #     requires:
-      #       - install-dependencies
-      #       - run-test
-# workflows:
-#   build:
-#     jobs:
-#       - cypress/run:
-#           name: Install Dependencies
-#           command: npm install
-
-#       # - cypress/run:
-#       #     name: Testing Project
-#       #     requires:
-#       #       - Install Dependencies
-#       #     debug: "cypress:cli"
-#       #     attach-workspace: true
-#       #     command: npm run ci-test
-
-#       - cypress/run:
-#           name: Building Project
-#           requires:
-#             - Install Dependencies
-#           attach-workspace: true
-#           command: npm run build
-#           post-steps:
-#             - persist_to_workspace:
-#                 root: ~/
-#                 paths:
-#                   - project
+      - run-test
+      - build-project:
+          requires:
+            - run-test
