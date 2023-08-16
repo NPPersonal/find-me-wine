@@ -8,7 +8,13 @@ jobs:
   install-dependencies:
     executor: node/default
     steps:
-      - node/install-packages
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
   run-test:
     executor: cypress/default
     steps:
