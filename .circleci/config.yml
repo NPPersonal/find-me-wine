@@ -1,29 +1,58 @@
 version: 2.1
 orbs:
-  cypress: cypress-io/cypress@2
+  node: circleci/node@5.1.0
+  cypress: cypress-io/cypress@3.1.3
+
+# define jobs
+jobs:
+  install-dependencies:
+    executor: node/default
+    steps:
+      - run: npm install
+  run-test:
+    executor: cypress/default
+    steps:
+      - run: npm run ci-test
+  build-project:
+    executor: node/default
+    steps:
+      - run: npm run build 
+
+# define workflows
 workflows:
-  build:
+  install-test-build:
     jobs:
-      - cypress/run:
-          name: Install Dependencies
-          command: npm install
-
-      # - cypress/run:
-      #     name: Testing Project
-      #     requires:
-      #       - Install Dependencies
-      #     debug: "cypress:cli"
-      #     attach-workspace: true
-      #     command: npm run ci-test
-
-      - cypress/run:
-          name: Building Project
+      - install-dependencies
+      - run-test:
           requires:
-            - Install Dependencies
-          attach-workspace: true
-          command: npm run build
-          post-steps:
-            - persist_to_workspace:
-                root: ~/
-                paths:
-                  - project
+            - install-dependencies
+      - build-project:
+          requires:
+            - install-dependencies
+            - run-test
+# workflows:
+#   build:
+#     jobs:
+#       - cypress/run:
+#           name: Install Dependencies
+#           command: npm install
+
+#       # - cypress/run:
+#       #     name: Testing Project
+#       #     requires:
+#       #       - Install Dependencies
+#       #     debug: "cypress:cli"
+#       #     attach-workspace: true
+#       #     command: npm run ci-test
+
+#       - cypress/run:
+#           name: Building Project
+#           requires:
+#             - Install Dependencies
+#           attach-workspace: true
+#           command: npm run build
+#           post-steps:
+#             - persist_to_workspace:
+#                 root: ~/
+#                 paths:
+#                   - project
