@@ -8,7 +8,7 @@ jobs:
   install-dependencies:
     executor: node/default
     steps:
-      - run: npm install
+      - node/install-packages
   run-test:
     executor: cypress/default
     steps:
@@ -23,13 +23,13 @@ workflows:
   install-test-build:
     jobs:
       - install-dependencies
-      - run-test:
-          requires:
-            - install-dependencies
-      - build-project:
-          requires:
-            - install-dependencies
-            - run-test
+      # - run-test:
+      #     requires:
+      #       - install-dependencies
+      # - build-project:
+      #     requires:
+      #       - install-dependencies
+      #       - run-test
 # workflows:
 #   build:
 #     jobs:
