@@ -41,4 +41,4 @@ The app is a front-end web that enable user to find wine base on their descripti
 
 ### Server
 
-The server side is a machine learning model built with sklearn and exposed API with python. The document of API https://wine-review-ml.herokuapp.com/redoc .
+The server side is a machine learning model built with sklearn and exposed API with python. The document of API https://wine-review-server-x6pphtx3dq-uc.a.run.app
