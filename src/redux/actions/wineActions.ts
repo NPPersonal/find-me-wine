@@ -4,7 +4,7 @@ import { WineActionType } from "../actionTypes/wineTypes";
 import { AnyAction } from "redux";
 import { WineState } from "../reducers/wineReducer";
 
-const ML_API = process.env.NEXT_PUBLIC_ML_API;
+const API_ENDPOINT = process.env.NEXT_PUBLIC_WINE_FINDER_API;
 
 /**
  * Dispatch redux-thunk action to fetch number of unique wine
@@ -16,7 +16,7 @@ export const fetchNumUniqueWine =
       type: WineActionType.FETCH_NUM_UNIQUE_WINE,
     });
 
-    const res = await axios.get(`${ML_API}/list-of/title`);
+    const res = await axios.get(`${API_ENDPOINT}/list-of/title`);
     const wineQuantity = res.data.total_results;
 
     dispatch({
@@ -34,7 +34,7 @@ export const fetchNumUniqueCountry =
       type: WineActionType.FETCH_NUM_UNIQUE_COUNTRY,
     });
 
-    const res = await axios.get(`${ML_API}/list-of/country`);
+    const res = await axios.get(`${API_ENDPOINT}/list-of/country`);
     const countryQuantity = res.data.total_results;
 
     dispatch({
@@ -56,7 +56,7 @@ export const findWineWith =
       type: WineActionType.START_FINDING_WINE,
     });
 
-    const res = await axios.post(`${ML_API}/find-wine`, {
+    const res = await axios.post(`${API_ENDPOINT}/find-wine`, {
       description: description,
       query_page: page,
       query_size: size,
