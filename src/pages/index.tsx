@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { GetStaticProps } from "next/types/index";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { HomeProps } from "../pageUtils/home";
-import Container from "@material-ui/core/Container/Container";
-import Typography from "@material-ui/core/Typography/Typography";
 import wrapper, { RootState } from "../redux/store";
 import {
   fetchNumUniqueWine,
   fetchNumUniqueCountry,
   findWineWith,
 } from "../redux/actions/wineActions";
-
-import TextField from "@material-ui/core/TextField/TextField";
-import Button from "@material-ui/core/Button/Button";
-import Box from "@material-ui/core/Box/Box";
 import {
   selectNumUniqueCountry,
   selectNumUniqueWine,
@@ -23,21 +16,24 @@ import {
 } from "../redux/selectors/wineSelector";
 import WineCollection from "../components/concrete/WineCollection/WineCollection";
 import Counter from "../components/concrete/Counter/Counter";
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import Pagination from "@material-ui/lab/Pagination/Pagination";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener/ClickAwayListener";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import InfoSharp from "@material-ui/icons/InfoSharp";
+import {
+  Button,
+  Center,
+  Flex,
+  Textarea,
+  Wrap,
+  Text,
+  Box,
+  AspectRatio,
+  Container,
+  Stack,
+  useTheme,
+} from "@chakra-ui/react";
+import { Providers } from "../pageUtils/providers";
+import ResponsivePagination from "react-responsive-pagination";
+import "react-responsive-pagination/themes/classic.css";
 
-// export const getStaticProps: GetStaticProps<HomeProps> = async () =>{
-//   return {
-//     props:{
-//       header: 'Find Me Wine In Progress'
-//     }
-//   }
-// }
-
-export const getStaticProps = wrapper.getStaticProps<HomeProps>(() => () => {
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   return {
     props: {
       header: "Wine Recommendation",
@@ -48,16 +44,16 @@ export const getStaticProps = wrapper.getStaticProps<HomeProps>(() => () => {
 });
 
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
-  const dispatch = useDispatch();
-  const numUniqueWine = useSelector(selectNumUniqueWine);
-  const fetchingUniqueWine = useSelector(selectFetchingNumUniqueWine);
-  const numUniqueCountry = useSelector(selectNumUniqueCountry);
-  const fetchingUniqueCountry = useSelector(selectFetchingNumUniqueCountry);
-  const { findingWine } = useSelector((state: RootState) => state.wine);
-  const wineQueryResult = useSelector(selectWineQueryResult);
+  const theme = useTheme();
+  const dispatch = useAppDispatch();
+  const numUniqueWine = useAppSelector(selectNumUniqueWine);
+  const fetchingUniqueWine = useAppSelector(selectFetchingNumUniqueWine);
+  const numUniqueCountry = useAppSelector(selectNumUniqueCountry);
+  const fetchingUniqueCountry = useAppSelector(selectFetchingNumUniqueCountry);
+  const { findingWine } = useAppSelector((state: RootState) => state.wine);
+  const wineQueryResult = useAppSelector(selectWineQueryResult);
   const [queryPage, setQueryPage] = useState<number>(1);
   const [desc, setDesc] = useState<string>("");
-  const [openTooltip, setOpenTooltip] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchNumUniqueWine());
@@ -68,8 +64,8 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
     handleSearchPageChange(queryPage);
   }, [queryPage]);
 
-  const handleDescChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDesc(evt.target.value);
+  const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDesc(e.target.value);
   };
 
   const handleSearch = () => {
@@ -81,111 +77,60 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
     dispatch(findWineWith(desc, page));
   };
 
-  const handlePageChange = (_e: object, page: number) => {
+  const handlePageChange = (page: number) => {
     setQueryPage(page);
   };
 
-  const handleTooltipClose = () => setOpenTooltip(false);
-  const handleTooltipOpen = () => setOpenTooltip(true);
-
   return (
-    <Container>
-      <Typography variant="h1">
-        <Box display="flex" paddingBottom={8} justifyContent="center">
+    <Providers>
+      <Flex direction="column" align="center" justifyContent="space-evenly">
+        <Text fontSize="4xl" fontWeight="bold">
           {props.header}
-        </Box>
-      </Typography>
-      <Typography variant="h2">
-        <Box display="flex" justifyContent="center">
-          <Box fontWeight={800}>
-            <Counter
-              end={!fetchingUniqueWine ? numUniqueWine : 0}
-              duration={4}
+        </Text>
+        <Wrap m="4">
+          <Text fontSize="3xl">{`With`}</Text>
+          {!fetchingUniqueWine && <Counter end={numUniqueWine} duration={4} />}
+          <Text fontSize="3xl">{`wines`}</Text>
+          <Text fontSize="3xl">{`From`}</Text>
+          {!fetchingUniqueCountry && (
+            <Counter end={numUniqueCountry} duration={4} />
+          )}
+          <Text fontSize="3xl">{`countries`}</Text>
+        </Wrap>
+        <Container m="4">
+          <Wrap>
+            <Textarea
+              size="md"
+              minH="sm"
+              variant="filled"
+              colorScheme="teal"
+              placeholder={props.example_desc}
+              onChange={handleDescChange}
             />
-          </Box>
-          <Typography variant="inherit">{`wines`}</Typography>
-        </Box>
-      </Typography>
-      <Typography variant="h2">
-        <Box display="flex" justifyContent="center">
-          <Box fontWeight={800}>
-            <Counter
-              end={!fetchingUniqueCountry ? numUniqueCountry : 0}
-              duration={4}
-            />
-          </Box>
-          <Typography variant="inherit">{`countries`}</Typography>
-        </Box>
-      </Typography>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        paddingTop={8}
-        paddingX={8}
-      >
-        <ClickAwayListener onClickAway={handleTooltipClose}>
-          <Tooltip
-            arrow
-            PopperProps={{
-              disablePortal: true,
-            }}
-            onClose={handleTooltipClose}
-            open={openTooltip}
-            disableFocusListener
-            disableHoverListener
-            disableTouchListener
-            title={<Typography variant="h6">{props.tooltip}</Typography>}
-          >
-            <IconButton onClick={handleTooltipOpen}>
-              <InfoSharp />
-            </IconButton>
-          </Tooltip>
-        </ClickAwayListener>
-        <Box width="100%">
-          <TextField
-            fullWidth={true}
-            variant="outlined"
-            label="Wine Description"
-            multiline
-            placeholder={props.example_desc}
-            defaultValue={desc}
-            onChange={handleDescChange}
-          />
-        </Box>
-        <Box paddingTop={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSearch}
-            disabled={findingWine}
-          >
-            Search
-          </Button>
-        </Box>
-      </Box>
-      <Box width="inherit" paddingY={2} paddingX={2}>
-        <WineCollection data={wineQueryResult.results} />
-      </Box>
-      {wineQueryResult.totalPages > 0 ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          width="inherit"
-          paddingTop={2}
-          paddingBottom={8}
-          paddingX={12}
+          </Wrap>
+        </Container>
+        <Button
+          colorScheme="green"
+          m="4"
+          onClick={handleSearch}
+          isDisabled={findingWine}
         >
-          <Pagination
-            count={wineQueryResult.totalPages}
-            page={queryPage}
-            onChange={handlePageChange}
-            color="primary"
-          />
-        </Box>
-      ) : null}
-    </Container>
+          Search
+        </Button>
+        <Stack m="4">
+          {wineQueryResult.results && (
+            <WineCollection data={wineQueryResult.results} />
+          )}
+          {wineQueryResult.results && wineQueryResult.totalPages > 1 && (
+            <ResponsivePagination
+              current={queryPage}
+              total={wineQueryResult.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </Stack>
+      </Flex>
+    </Providers>
   );
 };
 

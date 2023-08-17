@@ -1,8 +1,9 @@
-import { ThunkDispatch } from "redux-thunk";
+import { ThunkDispatch, ThunkAction } from "redux-thunk";
 import axios from "axios";
 import { WineActionType } from "../actionTypes/wineTypes";
-import { AnyAction } from "redux";
-import { WineState } from "../reducers/wineReducer";
+import { AnyAction, Action } from "redux";
+// import { WineState } from "../reducers/wineReducer";
+import { RootState } from "../store";
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_WINE_FINDER_API;
 
@@ -11,7 +12,7 @@ const API_ENDPOINT = process.env.NEXT_PUBLIC_WINE_FINDER_API;
  * in database.
  */
 export const fetchNumUniqueWine =
-  () => async (dispatch: ThunkDispatch<WineState, void, AnyAction>) => {
+  (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch({
       type: WineActionType.FETCH_NUM_UNIQUE_WINE,
     });
@@ -29,7 +30,7 @@ export const fetchNumUniqueWine =
  * Dispatch redux-thunk action to fetch number of unique country
  */
 export const fetchNumUniqueCountry =
-  () => async (dispatch: ThunkDispatch<WineState, void, AnyAction>) => {
+  (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch({
       type: WineActionType.FETCH_NUM_UNIQUE_COUNTRY,
     });
@@ -50,8 +51,12 @@ export const fetchNumUniqueCountry =
  * @param description the description that is used to find wines
  */
 export const findWineWith =
-  (description: string = "", page: number = 1, size: number = 10) =>
-  async (dispatch: ThunkDispatch<WineState, void, AnyAction>) => {
+  (
+    description: string = "",
+    page: number = 1,
+    size: number = 10
+  ): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
     dispatch({
       type: WineActionType.START_FINDING_WINE,
     });
