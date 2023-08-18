@@ -30,7 +30,6 @@ const WineCollection: React.FC<WineCollectionProps> = (
   props: WineCollectionProps
 ) => {
   const { data } = props;
-  console.log(data);
   return (
     <Container maxW={"container.lg"}>
       <Wrap direction="column">
