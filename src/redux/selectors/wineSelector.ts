@@ -20,6 +20,9 @@ const transformWineResult = (wineResult: any) => {
       return {
         country: wine["country"],
         title: wine["title"],
+        description: wine["description"],
+        points: wine["points"],
+        price: wine["price"],
       };
     }),
   };
@@ -49,5 +52,3 @@ export const selectNumUniqueCountry = createSelector(
   selectWine,
   (wine: WineState) => wine.numUniqueCountry
 );
-
-export default {};

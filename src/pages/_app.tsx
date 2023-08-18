@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import wrapper from "../redux/store";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
-import { defaultTheme } from "@/themes/theme";
+import { defaultTheme } from "../themes/theme";
 
 function App({ Component, pageProps }: AppProps) {
   const redux_store = wrapper.useWrappedStore(pageProps);
