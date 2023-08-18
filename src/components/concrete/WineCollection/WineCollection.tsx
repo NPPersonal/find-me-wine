@@ -45,36 +45,36 @@ const WineCollection: React.FC<WineCollectionProps> = (
               boxShadow="md"
             >
               <CardBody>
-                <Stack direction="row" align="center">
-                  <Image src="/wine-bottle.png" fit="cover" />
-                  <Stack direction="column">
+                <Stack direction="column">
+                  <Wrap align="center">
+                    <Image src="/wine-bottle.png" fit="cover" boxSize="32px" />
                     <Heading size="md">{wine.title}</Heading>
-                    <Wrap align="center">
-                      <Image src="/location.png" boxSize="32px" />
-                      <Text fontSize="md" fontWeight="bold">
-                        {wine.country}
-                      </Text>
-                    </Wrap>
-                    <Wrap align="center">
-                      <Image src="/rating.png" boxSize="32px" />
-                      <Text fontSize="md" fontWeight="bold">
-                        {wine.points}
-                      </Text>
-                    </Wrap>
-                    <Wrap align="center">
-                      <Image src="/price.png" boxSize="32px" />
-                      <Text fontSize="md" fontWeight="bold">
-                        {wine.price}
-                      </Text>
-                      <Text fontSize="md" fontWeight="bold">{` USD`}</Text>
-                    </Wrap>
-                    <Wrap direction="column">
-                      <Image src="/comment.png" boxSize="32px" />
-                      <Text fontSize="md" fontWeight="bold">
-                        {wine.description}
-                      </Text>
-                    </Wrap>
-                  </Stack>
+                  </Wrap>
+                  <Wrap align="center">
+                    <Image src="/location.png" boxSize="32px" />
+                    <Text fontSize="md" fontWeight="bold">
+                      {wine.country}
+                    </Text>
+                  </Wrap>
+                  <Wrap align="center">
+                    <Image src="/rating.png" boxSize="32px" />
+                    <Text fontSize="md" fontWeight="bold">
+                      {wine.points}
+                    </Text>
+                  </Wrap>
+                  <Wrap align="center">
+                    <Image src="/price.png" boxSize="32px" />
+                    <Text fontSize="md" fontWeight="bold">
+                      {wine.price}
+                    </Text>
+                    <Text fontSize="md" fontWeight="bold">{` USD`}</Text>
+                  </Wrap>
+                  <Wrap direction="column">
+                    <Image src="/comment.png" boxSize="32px" />
+                    <Text fontSize="md" fontWeight="bold">
+                      {wine.description}
+                    </Text>
+                  </Wrap>
                 </Stack>
               </CardBody>
             </Card>
