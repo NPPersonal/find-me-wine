@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
-import { HomeProps } from "../pageUtils/home";
 import wrapper, { RootState } from "../redux/store";
 import {
   fetchNumUniqueWine,
@@ -18,20 +17,24 @@ import WineCollection from "../components/concrete/WineCollection/WineCollection
 import Counter from "../components/concrete/Counter/Counter";
 import {
   Button,
-  Center,
   Flex,
   Textarea,
   Wrap,
   Text,
-  Box,
-  AspectRatio,
   Container,
   Stack,
   useTheme,
 } from "@chakra-ui/react";
-import { Providers } from "../pageUtils/providers";
+import { Providers } from "../providers";
 import ResponsivePagination from "react-responsive-pagination";
 import "react-responsive-pagination/themes/classic.css";
+import Head from "next/head";
+
+type HomeProps = {
+  header: string;
+  example_desc: string;
+  tooltip: string;
+};
 
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   return {
@@ -55,14 +58,16 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
   const [queryPage, setQueryPage] = useState<number>(1);
   const [desc, setDesc] = useState<string>("");
 
+  // effect when component start
   useEffect(() => {
     dispatch(fetchNumUniqueWine());
     dispatch(fetchNumUniqueCountry());
   }, [dispatch]);
 
+  // effect when page number changed
   useEffect(() => {
-    handleSearchPageChange(queryPage);
-  }, [queryPage]);
+    dispatch(findWineWith(desc, queryPage));
+  }, [queryPage, dispatch]);
 
   const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDesc(e.target.value);
@@ -73,16 +78,15 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
     dispatch(findWineWith(desc));
   };
 
-  const handleSearchPageChange = (page: number) => {
-    dispatch(findWineWith(desc, page));
-  };
-
   const handlePageChange = (page: number) => {
     setQueryPage(page);
   };
 
   return (
     <Providers>
+      <Head>
+        <title>Find me wines</title>
+      </Head>
       <Flex direction="column" align="center" justifyContent="space-evenly">
         <Text fontSize="4xl" fontWeight="bold">
           {props.header}

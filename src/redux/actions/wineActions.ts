@@ -17,7 +17,11 @@ export const fetchNumUniqueWine =
       type: WineActionType.FETCH_NUM_UNIQUE_WINE,
     });
 
-    const res = await axios.get(`${API_ENDPOINT}/list-of/title`);
+    const res = await axios.get(`${API_ENDPOINT}/list-of/`, {
+      params: {
+        column_name: "title",
+      },
+    });
     const wineQuantity = res.data.total_results;
 
     dispatch({
@@ -35,7 +39,11 @@ export const fetchNumUniqueCountry =
       type: WineActionType.FETCH_NUM_UNIQUE_COUNTRY,
     });
 
-    const res = await axios.get(`${API_ENDPOINT}/list-of/country`);
+    const res = await axios.get(`${API_ENDPOINT}/list-of/`, {
+      params: {
+        column_name: "country",
+      },
+    });
     const countryQuantity = res.data.total_results;
 
     dispatch({
@@ -61,10 +69,10 @@ export const findWineWith =
       type: WineActionType.START_FINDING_WINE,
     });
 
-    const res = await axios.post(`${API_ENDPOINT}/find-wine`, {
+    const res = await axios.post(`${API_ENDPOINT}/find-wine/`, {
       description: description,
-      query_page: page,
-      query_size: size,
+      page: page,
+      size: size,
     });
     const wineList = res.data.result;
     const totalPages = res.data.total_pages;
