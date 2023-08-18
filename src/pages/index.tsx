@@ -62,7 +62,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
   useEffect(() => {
     dispatch(fetchNumUniqueWine());
     dispatch(fetchNumUniqueCountry());
-  }, []);
+  });
 
   // effect when page number changed
   useEffect(() => {

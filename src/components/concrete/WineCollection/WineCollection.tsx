@@ -46,30 +46,35 @@ const WineCollection: React.FC<WineCollectionProps> = (
               <CardBody>
                 <Stack direction="column">
                   <Wrap align="center">
-                    <Image src="/wine-bottle.png" fit="cover" boxSize="32px" />
+                    <Image
+                      src="/wine-bottle.png"
+                      fit="cover"
+                      boxSize="32px"
+                      alt="wine-bottle"
+                    />
                     <Heading size="md">{wine.title}</Heading>
                   </Wrap>
                   <Wrap align="center">
-                    <Image src="/location.png" boxSize="32px" />
+                    <Image src="/location.png" boxSize="32px" alt="location" />
                     <Text fontSize="md" fontWeight="bold">
                       {wine.country}
                     </Text>
                   </Wrap>
                   <Wrap align="center">
-                    <Image src="/rating.png" boxSize="32px" />
+                    <Image src="/rating.png" boxSize="32px" alt="rating" />
                     <Text fontSize="md" fontWeight="bold">
                       {wine.points}
                     </Text>
                   </Wrap>
                   <Wrap align="center">
-                    <Image src="/price.png" boxSize="32px" />
+                    <Image src="/price.png" boxSize="32px" alt="price" />
                     <Text fontSize="md" fontWeight="bold">
                       {wine.price}
                     </Text>
                     <Text fontSize="md" fontWeight="bold">{` USD`}</Text>
                   </Wrap>
                   <Wrap direction="column">
-                    <Image src="/comment.png" boxSize="32px" />
+                    <Image src="/comment.png" boxSize="32px" alt="comment" />
                     <Text fontSize="md" fontWeight="bold">
                       {wine.description}
                     </Text>

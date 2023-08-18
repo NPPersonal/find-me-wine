@@ -52,5 +52,3 @@ export const selectNumUniqueCountry = createSelector(
   selectWine,
   (wine: WineState) => wine.numUniqueCountry
 );
-
-export default {};
