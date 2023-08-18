@@ -19,6 +19,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "export": "next export",
     "cy-open": "cypress open",
     "cy-run": "cypress run",
     "e2e-test": "server-test dev :3000 cy-open",

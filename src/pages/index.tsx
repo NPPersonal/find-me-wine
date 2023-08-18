@@ -25,7 +25,6 @@ import {
   Stack,
   useTheme,
 } from "@chakra-ui/react";
-import { Providers } from "../providers";
 import ResponsivePagination from "react-responsive-pagination";
 import "react-responsive-pagination/themes/classic.css";
 import Head from "next/head";
@@ -62,7 +61,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
   useEffect(() => {
     dispatch(fetchNumUniqueWine());
     dispatch(fetchNumUniqueCountry());
-  });
+  }, [dispatch]);
 
   // effect when page number changed
   useEffect(() => {
