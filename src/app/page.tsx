@@ -1,6 +1,6 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
-import wrapper, { RootState } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
   fetchNumUniqueWine,
   fetchNumUniqueCountry,
@@ -13,8 +13,8 @@ import {
   selectFetchingNumUniqueWine,
   selectFetchingNumUniqueCountry,
 } from "../redux/selectors/wineSelector";
-import WineCollection from "../components/concrete/WineCollection/WineCollection";
-import Counter from "../components/concrete/Counter/Counter";
+import WineCollection from "./components/wine.collection/wine.collection";
+import Counter from "./components/counter/counter";
 import {
   Button,
   Flex,
@@ -23,67 +23,56 @@ import {
   Text,
   Container,
   Stack,
-  useTheme,
-} from "@chakra-ui/react";
+} from "./chakra.ui.provider";
 import ResponsivePagination from "react-responsive-pagination";
 import "react-responsive-pagination/themes/classic.css";
-import Head from "next/head";
 
-type HomeProps = {
-  header: string;
-  example_desc: string;
-  tooltip: string;
-};
-
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  return {
-    props: {
-      header: "Wine Recommendation",
-      tooltip: `The system analyze your description about the wine and then recommed similar wines for you.`,
-      example_desc: `Describe how do you feel about the wine.\n\nExample:\n\nSharp, simple and candied, with blackberry jam and cola flavors. The tannins are rugged, and the wine finishes with a scour of acidity. Seems at its best now.`,
-    },
-  };
+const getProps = () => ({
+  header: "Wine Recommendation",
+  tooltip: `The system analyze your description about the wine and then recommed similar wines for you.`,
+  example_desc: `Describe how do you feel about the wine.\n\nExample:\n\nSharp, simple and candied, with blackberry jam and cola flavors. The tannins are rugged, and the wine finishes with a scour of acidity. Seems at its best now.`,
 });
 
-const Home: React.FC<HomeProps> = (props: HomeProps) => {
-  const theme = useTheme();
-  const dispatch = useAppDispatch();
-  const numUniqueWine = useAppSelector(selectNumUniqueWine);
-  const fetchingUniqueWine = useAppSelector(selectFetchingNumUniqueWine);
-  const numUniqueCountry = useAppSelector(selectNumUniqueCountry);
-  const fetchingUniqueCountry = useAppSelector(selectFetchingNumUniqueCountry);
-  const { findingWine } = useAppSelector((state: RootState) => state.wine);
-  const wineQueryResult = useAppSelector(selectWineQueryResult);
-  const [queryPage, setQueryPage] = useState<number>(1);
-  const [desc, setDesc] = useState<string>("");
+const Page = () => {
+  const props = getProps();
+  // const dispatch = useAppDispatch();
+  // const numUniqueWine = useAppSelector(selectNumUniqueWine);
+  // const fetchingUniqueWine = useAppSelector(selectFetchingNumUniqueWine);
+  // const numUniqueCountry = useAppSelector(selectNumUniqueCountry);
+  // const fetchingUniqueCountry = useAppSelector(selectFetchingNumUniqueCountry);
+  // const { findingWine } = useAppSelector();
+  // const wineQueryResult = useAppSelector(selectWineQueryResult);
+  // const [queryPage, setQueryPage] = useState<number>(1);
+  // const [desc, setDesc] = useState<string>("");
 
   // effect when component start
-  useEffect(() => {
-    dispatch(fetchNumUniqueWine());
-    dispatch(fetchNumUniqueCountry());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchNumUniqueWine());
+  //   dispatch(fetchNumUniqueCountry());
+  // }, [dispatch]);
 
   // effect when page number changed
-  useEffect(() => {
-    dispatch(findWineWith(desc, queryPage));
-  }, [queryPage, dispatch]);
+  // useEffect(() => {
+  //   dispatch(findWineWith(desc, queryPage));
+  // }, [queryPage, dispatch]);
 
-  const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDesc(e.target.value);
-  };
+  // const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   setDesc(e.target.value);
+  // };
 
-  const handleSearch = () => {
-    setQueryPage(1);
-    dispatch(findWineWith(desc));
-  };
+  // const handleSearch = () => {
+  //   setQueryPage(1);
+  //   dispatch(findWineWith(desc));
+  // };
 
-  const handlePageChange = (page: number) => {
-    setQueryPage(page);
-  };
+  // const handlePageChange = (page: number) => {
+  //   setQueryPage(page);
+  // };
 
   return (
     <>
-      <Head>
+      <Text>Find me wine</Text>
+      {/* <Head>
         <title>Find me wines</title>
       </Head>
       <Flex direction="column" align="center" justifyContent="space-evenly">
@@ -132,9 +121,9 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
             />
           )}
         </Stack>
-      </Flex>
+      </Flex> */}
     </>
   );
 };
 
-export default Home;
+export default Page;

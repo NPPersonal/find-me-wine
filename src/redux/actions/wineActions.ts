@@ -18,6 +18,7 @@ export const fetchNumUniqueWine =
     });
 
     const res = await axios.get(`${API_ENDPOINT}/list-of/`, {
+      withCredentials: false,
       params: {
         column_name: "title",
       },
