@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Card,
@@ -14,29 +16,20 @@ import {
   Container,
 } from "@chakra-ui/react";
 
-type WineData = {
-  title: string;
-  country: string;
-  description: string;
-  points: number;
-  price: number;
+type ComponentProps = {
+  data?: [];
 };
 
-export type WineCollectionProps = React.ComponentProps<typeof Wrap> & {
-  data: [WineData];
-};
-
-const WineCollection: React.FC<WineCollectionProps> = (
-  props: WineCollectionProps
-) => {
+const WineCollection = (props: ComponentProps) => {
   const { data } = props;
+  if (!data) return null;
   return (
     <Container maxW={"container.lg"}>
       <Wrap direction="column">
         {data.map((wine, i) => {
           return (
             <Card
-              key={`${wine.title}-${i}`}
+              key={`${wine["title"]}-${i}`}
               direction={{ base: "column", sm: "row" }}
               overflow="hidden"
               variant="filled"
@@ -52,31 +45,31 @@ const WineCollection: React.FC<WineCollectionProps> = (
                       boxSize="32px"
                       alt="wine-bottle"
                     />
-                    <Heading size="md">{wine.title}</Heading>
+                    <Heading size="md">{wine["title"]}</Heading>
                   </Wrap>
                   <Wrap align="center">
                     <Image src="/location.png" boxSize="32px" alt="location" />
                     <Text fontSize="md" fontWeight="bold">
-                      {wine.country}
+                      {wine["country"]}
                     </Text>
                   </Wrap>
                   <Wrap align="center">
                     <Image src="/rating.png" boxSize="32px" alt="rating" />
                     <Text fontSize="md" fontWeight="bold">
-                      {wine.points}
+                      {wine["points"]}
                     </Text>
                   </Wrap>
                   <Wrap align="center">
                     <Image src="/price.png" boxSize="32px" alt="price" />
                     <Text fontSize="md" fontWeight="bold">
-                      {wine.price}
+                      {wine["price"]}
                     </Text>
                     <Text fontSize="md" fontWeight="bold">{` USD`}</Text>
                   </Wrap>
                   <Wrap direction="column">
                     <Image src="/comment.png" boxSize="32px" alt="comment" />
                     <Text fontSize="md" fontWeight="bold">
-                      {wine.description}
+                      {wine["description"]}
                     </Text>
                   </Wrap>
                 </Stack>

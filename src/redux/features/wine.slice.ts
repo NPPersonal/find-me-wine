@@ -80,6 +80,32 @@ export const fetchNumUniqueCountries = createAsyncThunk(
   }
 );
 
+type findWinesQuery = { description: string; page?: number; size?: number };
+
+export const findWinesWith = createAsyncThunk(
+  "wine/find_wines_with",
+  async (query_data: findWinesQuery) => {
+    try {
+      const { description, page = 1, size = 10 } = query_data;
+
+      const res = await axios.post(`${API_ENDPOINT}/find-wine/`, {
+        description: description,
+        page: page,
+        size: size,
+      });
+
+      const wineList = res.data.result;
+      const totalPages = res.data.total_pages;
+      const totalResults = res.data.total_results;
+
+      return { wineList, totalPages, totalResults };
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error find wines");
+    }
+  }
+);
+
 const selectWine = (state: any) => state.wine;
 
 export const selectNumUniqueWines = createSelector(
@@ -90,6 +116,11 @@ export const selectNumUniqueWines = createSelector(
 export const selectNumUniqueCountries = createSelector(
   selectWine,
   (wine: WineState) => wine.numUniqueCountries
+);
+
+export const selectFoundWines = createSelector(
+  selectWine,
+  (wine: WineState) => wine.foundWines
 );
 
 const wine = createSlice({
@@ -119,6 +150,19 @@ const wine = createSlice({
       .addCase(fetchNumUniqueCountries.rejected, (state, action) => {
         state.numUniqueCountries.status = "fail";
         state.numUniqueCountries.error = action.payload;
+      })
+      .addCase(findWinesWith.pending, (state, action) => {
+        state.foundWines.status = "fetching";
+      })
+      .addCase(findWinesWith.fulfilled, (state, action) => {
+        state.foundWines.status = "success";
+        state.foundWines.totalResults = action.payload.totalResults;
+        state.foundWines.totalPage = action.payload.totalPages;
+        state.foundWines.wineList = action.payload.wineList;
+      })
+      .addCase(findWinesWith.rejected, (state, action) => {
+        state.foundWines.status = "fail";
+        state.foundWines.error = action.payload;
       });
   },
 });
