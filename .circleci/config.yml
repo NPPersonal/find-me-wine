@@ -28,7 +28,7 @@ jobs:
   deploy:
     executor: node/default
     steps:
-      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/64db48100f6d0b4471e4eba4
+      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/64e9847b80904f7e01691ec4
 
 # define workflows
 workflows:
