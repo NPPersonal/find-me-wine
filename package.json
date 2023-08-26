@@ -31,7 +31,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.5",
-    "@svgr/webpack": "^5.5.0",
     "@types/node": "^20.5.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
@@ -40,8 +39,7 @@
     "eslint": "^8.47.0",
     "eslint-config-next": "^13.4.18",
     "framer-motion": "^10.16.0",
-    "next": "^13.4.16",
-    "next-redux-wrapper": "^8.1.0",
+    "next": "^13.4.19",
     "react": "^18.2.0",
     "react-countup": "^6.4.2",
     "react-dom": "^18.2.0",
@@ -50,12 +48,9 @@
     "react-responsive-pagination": "^2.2.2",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
-    "reselect": "^4.1.8",
-    "typescript": "^5.1.6",
-    "url-loader": "^4.1.1"
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^4.40.0",
     "@redux-devtools/extension": "^3.2.5",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
